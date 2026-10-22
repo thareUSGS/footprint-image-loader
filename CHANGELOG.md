@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0 - 2026-10-22
+
+- Place the image group at the top of the layer list, moving an existing group there before loading images.
+
 ## 0.2.0 - 2026-10-22
 
 - Updated plugin metadata and version information.

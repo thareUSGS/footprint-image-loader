@@ -9,8 +9,8 @@ Install the ZIP from QGIS Plugin Manager > Install from ZIP.
 Push a version tag to create a GitHub Release with an installable plugin ZIP:
 
 ```bash
-git tag v0.2.0
-git push origin v0.2.0
+git tag v0.3.0
+git push origin v0.3.0
 ```
 
 The release ZIP contains the plugin in a top-level `footprint_image_loader/` folder.

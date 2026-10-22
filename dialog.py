@@ -332,7 +332,14 @@ class FootprintImageLoaderDialog(QDialog):
         root = project.layerTreeRoot()
 
         group_name = self.group.text().strip() or "Selected Images"
-        grp = root.findGroup(group_name) or root.addGroup(group_name)
+        grp = root.findGroup(group_name)
+        if grp is None:
+            grp = root.insertGroup(0, group_name)
+        else:
+            group_copy = grp.clone()
+            grp.parent().removeChildNode(grp)
+            root.insertChildNode(0, group_copy)
+            grp = root.findGroup(group_name)
 
         existing_sources = {layer.source() for layer in project.mapLayers().values()}
 
