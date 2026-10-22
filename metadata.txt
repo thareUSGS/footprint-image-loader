@@ -1,0 +1,11 @@
+[general]
+name=Footprint Image Loader
+description=Load local or HTTPS rasters referenced by selected vector footprints.
+version=0.1.1
+qgisMinimumVersion=3.0
+qgisMaximumVersion=4.99
+author=Copilot
+about=Loads imagery from a filename attribute for selected footprint features, with progress and cancellation.
+category=Raster
+experimental=False
+deprecated=False
