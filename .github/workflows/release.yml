@@ -24,11 +24,17 @@ jobs:
           cd "$RUNNER_TEMP"
           zip -r "$GITHUB_WORKSPACE/footprint_image_loader-${GITHUB_REF_NAME}.zip" footprint_image_loader
 
-      - name: Create GitHub release
+      - name: Create release or upload package
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" \
-            "footprint_image_loader-${GITHUB_REF_NAME}.zip" \
-            --title "Footprint Image Loader $GITHUB_REF_NAME" \
-            --generate-notes
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" \
+              "footprint_image_loader-${GITHUB_REF_NAME}.zip" \
+              --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" \
+              "footprint_image_loader-${GITHUB_REF_NAME}.zip" \
+              --title "Footprint Image Loader $GITHUB_REF_NAME" \
+              --generate-notes
+          fi
