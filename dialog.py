@@ -58,7 +58,7 @@ class FootprintImageLoaderDialog(QDialog):
         self.layers.currentIndexChanged.connect(self._update_fields)
 
         form.addRow("Footprint layer:", self.layers)
-        form.addRow("Filename field:", self.fields)
+        form.addRow("Filename or HTTPS field:", self.fields)
 
         # --- Source type (local vs HTTPS) ---
         source_row = QHBoxLayout()
@@ -84,16 +84,16 @@ class FootprintImageLoaderDialog(QDialog):
         local_row.addWidget(self.local_path)
         local_row.addWidget(self.browse)
 
-        form.addRow("Local image directory:", local_row)
+        form.addRow("Local image directory: [optional]", local_row)
 
         # --- HTTPS base URL ---
         self.https_base = QLineEdit()
         self.https_base.setPlaceholderText("https://example.com/imagery/")
-        form.addRow("HTTPS base URL:", self.https_base)
+        form.addRow("HTTPS base URL: [optional]", self.https_base)
 
         # --- Group name for loaded rasters ---
         self.group = QLineEdit("Selected Images")
-        form.addRow("Group name:", self.group)
+        form.addRow("Group name for loaded images:", self.group)
 
         main_layout.addLayout(form)
 
