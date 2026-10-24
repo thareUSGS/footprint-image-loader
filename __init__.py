@@ -1,3 +1,3 @@
 def classFactory(iface):
-    from .footprint_image_loader import FootprintImageLoader
-    return FootprintImageLoader(iface)
+    from .lift import LiftPlugin
+    return LiftPlugin(iface)

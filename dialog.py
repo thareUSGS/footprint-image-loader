@@ -11,7 +11,7 @@ from qgis.PyQt.QtWidgets import (
 from qgis.core import QgsProject, QgsRasterLayer, QgsVectorLayer
 
 
-class FootprintImageLoaderDialog(QDialog):
+class LiftDialog(QDialog):
     """
     Dialog to load rasters referenced by selected vector footprint features.
     Works with QGIS 3.x (Qt5) and QGIS 4.x (Qt6) via qgis.PyQt compatibility layer.
@@ -23,7 +23,7 @@ class FootprintImageLoaderDialog(QDialog):
         self.settings = QSettings()
         self._cancel = False
 
-        self.setWindowTitle("Footprint Image Loader")
+        self.setWindowTitle("LIFT - Load Image From Footprint")
         self.resize(600, 350)
 
         # Determine QDialogButtonBox enum compatibility for Qt5 vs Qt6
@@ -135,13 +135,27 @@ class FootprintImageLoaderDialog(QDialog):
     def _restore_settings(self):
         """Restore saved settings from previous runs."""
 
-        use_https = self.settings.value("footprint_image_loader/source", "local") == "https"
+        use_https = self.settings.value(
+            "lift/source", self.settings.value("footprint_image_loader/source", "local")
+        ) == "https"
         self.https.setChecked(use_https)
         self.local.setChecked(not use_https)
 
-        self.local_path.setText(self.settings.value("footprint_image_loader/local_dir", ""))
-        self.https_base.setText(self.settings.value("footprint_image_loader/https_base", ""))
-        self.group.setText(self.settings.value("footprint_image_loader/group", "Selected Images"))
+        self.local_path.setText(
+            self.settings.value(
+                "lift/local_dir", self.settings.value("footprint_image_loader/local_dir", "")
+            )
+        )
+        self.https_base.setText(
+            self.settings.value(
+                "lift/https_base", self.settings.value("footprint_image_loader/https_base", "")
+            )
+        )
+        self.group.setText(
+            self.settings.value(
+                "lift/group", self.settings.value("footprint_image_loader/group", "Selected Images")
+            )
+        )
 
         self._update_source_mode()
 
@@ -149,19 +163,19 @@ class FootprintImageLoaderDialog(QDialog):
         """Save current settings."""
 
         self.settings.setValue(
-            "footprint_image_loader/source",
+            "lift/source",
             "https" if self.https.isChecked() else "local"
         )
         self.settings.setValue(
-            "footprint_image_loader/local_dir",
+            "lift/local_dir",
             self.local_path.text().strip()
         )
         self.settings.setValue(
-            "footprint_image_loader/https_base",
+            "lift/https_base",
             self.https_base.text().strip()
         )
         self.settings.setValue(
-            "footprint_image_loader/group",
+            "lift/group",
             self.group.text().strip()
         )
 
@@ -303,7 +317,7 @@ class FootprintImageLoaderDialog(QDialog):
         # --- Validation ---
         if not isinstance(layer, QgsVectorLayer) or not field:
             self.iface.messageBar().pushWarning(
-                "Footprint Image Loader",
+                "LIFT - Load Image From Footprint",
                 "Choose a footprint layer and filename field."
             )
             return
@@ -311,7 +325,7 @@ class FootprintImageLoaderDialog(QDialog):
         features = layer.selectedFeatures()
         if not features:
             self.iface.messageBar().pushWarning(
-                "Footprint Image Loader",
+                "LIFT - Load Image From Footprint",
                 "Select one or more footprint features first."
             )
             return
@@ -402,4 +416,4 @@ class FootprintImageLoaderDialog(QDialog):
         self.status.setText(msg + ("\n" + "\n".join(failed[:10]) if failed else ""))
 
         banner = (self.iface.messageBar().pushWarning if failed or cancelled else self.iface.messageBar().pushSuccess)
-        banner("Footprint Image Loader", msg)
+        banner("LIFT - Load Image From Footprint", msg)

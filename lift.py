@@ -1,8 +1,8 @@
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
-from .dialog import FootprintImageLoaderDialog
+from .dialog import LiftDialog
 
-class FootprintImageLoader:
+class LiftPlugin:
     def __init__(self, iface):
         self.iface = iface
         self.action = None
@@ -12,18 +12,18 @@ class FootprintImageLoader:
         self.action = QAction(QIcon(), "Load Images from Footprints", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addToolBarIcon(self.action)
-        self.iface.addPluginToMenu("&Footprint Image Loader", self.action)
+        self.iface.addPluginToMenu("&LIFT - Load Image From Footprint", self.action)
 
     def unload(self):
         if self.action:
             self.iface.removeToolBarIcon(self.action)
-            self.iface.removePluginMenu("&Footprint Image Loader", self.action)
+            self.iface.removePluginMenu("&LIFT - Load Image From Footprint", self.action)
             self.action = None
 
     def run(self):
         # Create dialog if needed
         if self.dialog is None:
-            self.dialog = FootprintImageLoaderDialog(self.iface)
+            self.dialog = LiftDialog(self.iface)
 
         # Refresh and show
         self.dialog.refresh_layers()

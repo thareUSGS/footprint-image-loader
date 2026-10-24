@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 - 2026-10-24
+
+- Renamed the plugin to LIFT - Load Image From Footprint.
+- Updated plugin packaging and release assets to use the `lift` name.
+
 ## 0.3.0 - 2026-10-22
 
 - Place the image group at the top of the layer list, moving an existing group there before loading images.
